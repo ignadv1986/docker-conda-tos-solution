@@ -1,0 +1,14 @@
+# Dockerfile.base
+FROM continuumio/miniconda3
+
+# Automatically accept Conda plugins Terms of Service
+ENV CONDA_PLUGINS_AUTO_ACCEPT_TOS=yes
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Update conda, install TOS plugin, accept TOS for Anaconda channels, and clean up
+RUN conda update -n base -c defaults conda -y && \
+    conda install -n base -c defaults conda-anaconda-tos -y && \
+    conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main && \
+    conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r && \
+    conda clean -afy
+
